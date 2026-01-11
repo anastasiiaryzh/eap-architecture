@@ -69,27 +69,24 @@ This document specifies the functional requirements for the Enterprise Applicati
    - View own request history
    - Track status of own requests
    - Cancel own pending requests (before approval)
-   - Add comments to own requests
+   - Add comments to own requests (P2)
 
 2. **Approver (Manager/Team Lead):**
-   - All Requester capabilities
    - View requests requiring their approval
+   - Take requests under review auto-assigned to Approver
    - Approve or reject requests
-   - Add approval comments
-   - View approval history
+   - Add approval/reject comments
+   - View request history
 
 3. **Admin (System Administrator):**
-   - All Approver capabilities
    - View all requests in the system
    - Manage user accounts and roles
-   - Configure request types and workflows
-   - Mark requests as fulfilled/completed
+   - Configure request types
+   - Mark requests as in progress/completed/rejected
    - Generate reports and analytics
-   - Manage system settings
 
 **Acceptance Criteria:**
 - Users can only access features permitted by their role
-- Users can have multiple roles simultaneously
 - Role changes take effect immediately
 - Unauthorized access attempts are blocked and logged
 
@@ -102,10 +99,11 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Description:** Users shall be able to view and update their profile information.
 
 **Acceptance Criteria:**
-- Users can view their profile (name, email, role, department)
+- Users can view their profile (name, email, role)
 - Users can update their profile information (except role)
 - Email changes require verification
 - Profile changes are logged in audit trail
+- Password changes require verification
 
 ---
 
@@ -135,21 +133,20 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 **Request Fields:**
 - Request Type (dropdown, required)
+- Request Subtype (dropdown, required)
 - Title (text, required, max 200 chars)
 - Description (textarea, required, max 2000 chars)
 - Business Justification (textarea, required, max 1000 chars)
 - Priority (dropdown: Low, Medium, High, Urgent)
-- Requested Delivery Date (date picker, optional)
 - Attachments (optional, max 5 files, max 10MB each)
 
 **Acceptance Criteria:**
 - All required fields must be filled before submission
 - Request is assigned unique ID upon submission
-- Request status is set to "Draft" on creation without explicit submission
+- Request status is set to "Draft" on creation with explicit saving
 - Request status changes to "Submitted" after submission
 - Requester receives confirmation email
 - Validation errors are displayed clearly
-- Draft requests can be saved without submission
 
 ---
 
@@ -161,25 +158,29 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 **Initial Request Types (MVP):**
 1. **Hardware Request**
-   - Laptop/Desktop
+   - Laptop
+   - Desktop
    - Monitor
-   - Peripherals (keyboard, mouse, headset)
+   - Peripherals
    - Mobile device
+   - Other
 
 2. **Software & Access**
    - Software license
-   - System access (production, admin)
-   - Application access (CRM, ERP)
+   - System access
+   - Application access
    - VPN access
+   - Other
 
 3. **Services & Facilities**
    - Parking spot
-   - Office equipment (desk, chair)
+   - Office equipment
    - Training/course enrollment
    - Travel approval
+   - Other
 
 **Acceptance Criteria:**
-- Each request type has specific fields
+- Each request type has specific subtype
 - Request types can be added/modified by Admin (P2)
 - Request types can be activated/deactivated by Admin
 
@@ -194,22 +195,24 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Request States:**
 | State | Description | Who Can Act |
 |-------|-------------|-------------|
-| Draft | Request being created | Requester |
-| Submitted | Awaiting review | System (auto-routes to approver) |
-| Under Review | Being reviewed | Approver |
-| Approved | Approved, awaiting fulfillment | Admin/Fulfiller |
-| Rejected | Denied with reason | - (terminal state) |
-| Completed | Fulfilled and closed | - (terminal state) |
-| Cancelled | Requester cancelled | - (terminal state) |
+| Draft | Request being created (not sent to Approver) | Requester |
+| Submitted | Awaiting review | Requester (change status to "Submitted") → System (auto-assign to one default approver attached to one specific type of request) |
+| Under Review | Being reviewed (Approver starts review manually triggering this even) | Approver |
+| Approved | Approved, awaiting fulfillment | Approver |
+| In progress | Admin assigned request to themselves from general Admin dashboard backlog | Admin |
+| Rejected | Denied with a reason | Approver, Admin |
+| Completed | Fulfilled and closed | Admin |
+| Cancelled | Requester cancelled (can be done by Requester before "Approved" status) | Requester |
 
 **State Transitions:**
 - Draft → Submitted (by Requester)
-- Submitted → Under Review (automatic routing)
+- Submitted → Under Review (by Approver)
+- Submitted/Under Review → Cancelled (by Requester before approval)
 - Under Review → Approved (by Approver)
 - Under Review → Rejected (by Approver)
-- Under Review → Submitted (request more info)
-- Approved → Completed (by Admin)
-- Submitted/Under Review → Cancelled (by Requester before approval)
+- Approved → In progress (by Admin)
+- Approved → Rejected (by Admin)
+- In progress → Completed (by Admin)
 
 **Acceptance Criteria:**
 - Each state change is timestamped
@@ -226,9 +229,12 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Description:** Users shall be able to view detailed information about requests.
 
 **Request Details Include:**
-- Request ID and title
+- Request ID (integer)
+- Request title
 - Request type
-- Description and business justification
+- Request subtype
+- Description
+- Business justification
 - Requester information
 - Current status
 - Status history timeline
@@ -253,20 +259,20 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Description:** Requesters shall have a dashboard showing all their requests.
 
 **Dashboard Features:**
-- List view of all own requests
-- Status summary (count by status)
-- Filter by status (Pending, Approved, Rejected, Completed, All)
+- List view of all own requests with quick information (id, title, type, status, last update date, priority, assignee)
+- Status summary (count by status Submitted, Under review, Approved, Rejected, Completed, All)
+- Filter by status (Draft, Submitted, Under review, Approved, Rejected, Completed, All)
 - Filter by request type
-- Filter by date range
-- Sort by date, status, type
-- Search by title or description
+- Sort by last update date, status, type
+- Search by id, title or description
 - Quick status indicators (color-coded badges)
+- List of request is paginated
 
 **Acceptance Criteria:**
 - Dashboard loads within 2 seconds
-- Default view shows active requests (not completed/rejected)
+- Default view shows newest last updated date requests
 - Clicking request navigates to detail view
-- Dashboard updates in real-time when status changes
+- Dashboard updates when status changes
 
 ---
 
@@ -279,15 +285,15 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Acceptance Criteria:**
 - Requests can only be cancelled before approval
 - Cancellation requires confirmation dialog
-- Cancellation reason is optional
 - Cancelled requests move to "Cancelled" status
 - Approver is notified of cancellation
 - Cancelled requests remain visible in history
+- Can be cancelled in detail view
 
 ---
 
 ### FR-RM-007: Request Comments
-**Priority:** P1  
+**Priority:** P2   
 **Status:** Draft
 
 **Description:** Users shall be able to add comments to requests.
@@ -312,7 +318,6 @@ This document specifies the functional requirements for the Enterprise Applicati
 - Up to 5 files per request
 - Maximum 10MB per file
 - Supported formats: PDF, DOC, DOCX, XLS, XLSX, PNG, JPG
-- Files are virus-scanned before storage
 - Attachments can be downloaded by authorized users
 - Attachments are included in request details view
 
@@ -320,7 +325,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 ## Approval Workflow
 
-### FR-AW-001: Approval
+### FR-AW-001: Approval Dashboard
 **Priority:** P0  
 **Status:** Draft
 
@@ -329,15 +334,14 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Features:**
 - List of pending approval requests
 - Count of pending approvals (badge)
-- Request preview (title, requester, type, date)
-- Priority indicators
-- Quick approve/reject actions
-- Sort by date, priority, requester
-- Filter by request type
+- Request preview on Dashboard (title, subtype, status, date, priority, requester)
+- Quick "under review" action
+- Sort by date, priority
+- Filter by request status (submitted, under review, approved, rejected)
 
 **Acceptance Criteria:**
 - Dashboard shows only requests assigned to logged-in approver
-- Default sort is by submission date (oldest first)
+- Default sort is by last updated date (oldest first)
 - Quick actions are accessible without opening detail view
 
 ---
@@ -349,13 +353,12 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Description:** Approvers shall be able to approve requests.
 
 **Acceptance Criteria:**
-- Approver can approve from queue or detail view
+- Approver can approve from detail view
 - Approval comments are optional
 - Approval is logged with timestamp and approver ID
 - Request status changes to "Approved"
 - Requester receives email notification
 - Admin receives notification for fulfillment
-- Request can be reassigned to another approval before "Approved" status
 
 ---
 
@@ -383,11 +386,10 @@ This document specifies the functional requirements for the Enterprise Applicati
 **MVP Routing Logic:**
 - All requests of a given type route to designated approver for that type
 - Request from "Submitted" state auto assigned to designated approver
-- Routing configuration is managed by Admin
 - Each request type has one default approvers
 
 **Acceptance Criteria:**
-- Request status changes from "Submitted" to "Under Review" automatically
+- Request status changes from "Submitted" to "Under Review" by Approver
 - Approver receives email notification
 - Routing happens immediately upon submission
 
@@ -424,12 +426,12 @@ This document specifies the functional requirements for the Enterprise Applicati
 |-------|-----------|---------------|
 | Request submitted | Requester | Confirmation with request ID and summary |
 | Request routed | Approver | New request requiring approval |
+| Request under reviewing | Requester | Under review status |
 | Request approved | Requester | Approval confirmation |
 | Request rejected | Requester | Rejection notification with reason |
 | Request completed | Requester | Fulfillment confirmation |
 | Request cancelled | Approver | Cancellation notification |
 | Comment added | Relevant parties | New comment notification |
-| Status changed | Requester | Status update |
 
 **Acceptance Criteria:**
 - Emails are sent within 1 minute of event
@@ -526,7 +528,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Acceptance Criteria:**
 - Search results respect user permissions
 - Search returns results within 2 seconds
-- Results are paginated (20 per page)
+- Results are paginated (10 per page)
 
 ---
 
@@ -609,34 +611,6 @@ This document specifies the functional requirements for the Enterprise Applicati
 - Configuration changes are logged in audit trail
 
 ---
-
-### FR-SC-002: Email Template Configuration
-**Priority:** P2  
-**Status:** Draft
-
-**Description:** Admins shall be able to customize email notification templates.
-
-**Configurable Templates:**
-- Request submitted confirmation
-- Approval request notification
-- Approval/rejection notification
-- Completion notification
-
-**Template Variables:**
-- {requester_name}
-- {request_id}
-- {request_title}
-- {request_type}
-- {status}
-- {approver_name}
-- {link_to_request}
-
-**Acceptance Criteria:**
-- Templates use HTML formatting
-- Templates support variable substitution
-- Preview capability before saving
-- Default templates cannot be deleted, only reset
-
 
 ## Out of Scope for MVP
 
