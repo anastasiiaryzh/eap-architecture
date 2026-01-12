@@ -1,10 +1,10 @@
-# ADR-XXX: [Title]
+# ADR-XXX: [Title]  
 
-**Project:** Enterprise Application Project (EAP)
-**Version:** [e.g., 1.0]
-**Date:** [YYYY-MM-DD]
-**Status:** [Proposed | Accepted | Deprecated | Superseded]
-**Source:** [Optional: Reference to source document, e.g., EAP_Product_Vision_v1.0.pdf]
+**Project:** Enterprise Application Project (EAP)  
+**Version:** [e.g., 1.0]  
+**Date:** [YYYY-MM-DD]  
+**Status:** [Proposed | Accepted | Deprecated | Superseded]  
+**Source:** [Optional: Reference to source document, e.g., EAP_Product_Vision_v1.0.pdf]  
 
 ## Context
 
