@@ -1,10 +1,10 @@
-# ADR-001: Repository Strategy
+# ADR-001: Repository Strategy  
 
-Date: 2026-01-09
-
-## Status
-
-Accepted
+**Project:** Enterprise Application Project (EAP)  
+**Version:** 1.0  
+**Date:** 2026-01-09  
+**Status:** Accepted  
+**Source:** Project Requirements, Team Structure  
 
 ## Context
 
@@ -117,6 +117,8 @@ Each repository will use Git Flow with `main` (production-ready) and `dev` (inte
 Format: `<type>/eap-XXX-short-description`  
 Types: `feature`, `bugfix`, `hotfix`, `release`, `refactoring`, `chore`
 
+**Important:** The number `XXX` is the Jira user story number. This convention enables automatic linking between pull requests and Jira tickets for full traceability.
+
 Examples:
 ```
 feature/eap-123-add-access-request-endpoint
@@ -127,6 +129,8 @@ bugfix/eap-123-crash-on-start
 ### PR Title Convention
 
 Format: `EAP-XXX: description`
+
+**Important:** The number `XXX` is the Jira user story number. This convention enables automatic linking between pull requests and Jira tickets for full traceability.
 
 Example:
 ```
