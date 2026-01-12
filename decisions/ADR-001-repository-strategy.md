@@ -30,7 +30,7 @@ Each repository will use Git Flow with `main` (production-ready) and `dev` (inte
 
 ### Repository References
 - eap-backend - https://github.com/AbeerAlkhouri/eap-backend
-- eap-frontend - *In progress*
+- eap-frontend - https://github.com/ReemaSho-hub/eap-frontend
 - eap-qa - https://github.com/funda-it31/eap-qa
 - eap-architecture - https://github.com/anastasiiaryzh/eap-architecture
 
