@@ -207,7 +207,6 @@ Modern build tooling chosen for:
 - **Simplicity:** Minimal configuration compared to Webpack, seamless integration with Vite
 - **Modern Defaults:** ESM-first, optimized for React 19
 - **Industry Momentum:** Cutting-edge tooling representing the future of JavaScript bundling (2025-2026)
-- **Rollup Compatible:** Maintains compatibility with Rollup plugins while being significantly faster
 - **Best of Both Worlds:** Lightning-fast development experience + ultra-optimized production bundles
 
 ## Consequences
