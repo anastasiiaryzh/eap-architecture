@@ -100,8 +100,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 **Acceptance Criteria:**
 - Users can view their profile (name, email, role)
-- Users can update their profile information (except role)
-- Email changes require verification
+- Users can update their profile information (except email, role - can be changed by Admin)
 - Profile changes are logged in audit trail
 - Password changes require verification
 
@@ -242,7 +241,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 - Approval/rejection comments
 - Attachments
 - Created date and last updated date
-- All comments and activity
+- All comments and log activity
 
 **Acceptance Criteria:**
 - Requesters can view their own requests
@@ -259,15 +258,21 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Description:** Requesters shall have a dashboard showing all their requests.
 
 **Dashboard Features:**
+Tabs:
+- Active Requests: Requests with status Submitted, Under Review, Approved, or In Progress
+- Draft Requests: Requests with status Draft (saved but not yet submitted).
+- Closed Requests: Requests with status Completed, Rejected, or Cancelled.
+- All Requests (default view): A comprehensive list of all requests created by the user.
+
 - List view of all own requests with quick information (id, title, type, status, last update date, priority, assignee)
 - Status summary (count by status Submitted, Under review, Approved, Rejected, Completed, All)
 - Filter by status (Draft, Submitted, Under review, Approved, Rejected, Completed, All)
-- Filter by request type
-- Sort by last update date, status, type
+- Sort by last update date, priority
 - Search by id, title or description
 - Quick status indicators (color-coded badges)
-- List of request is paginated
-
+- List of request is paginated (10 per page default)
+- Create view provide change status to "submitted" or "draft"
+  
 **Acceptance Criteria:**
 - Dashboard loads within 2 seconds
 - Default view shows newest last updated date requests
@@ -331,18 +336,25 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 **Description:** Approvers shall have a dedicated dashboard showing requests requiring their approval.
 
-**Features:**
-- List of pending approval requests
-- Count of pending approvals (badge)
-- Request preview on Dashboard (title, subtype, status, date, priority, requester)
-- Quick "under review" action
-- Sort by date, priority
+**Features:**  
+Tabs:  
+- Pending Action (default view): Requests with status Submitted or Under Review assigned to the current approver.
+- History: All requests previously acted upon by the user (status Approved, Rejected, In Progress, or Completed).
+- All Assigned: Every request ever routed to this specific approver.
+
+- List of submitted approval requests (oldest last update first by default)
+- Count of submitted approvals, under review, approved, rejected (badge)
+- Request preview on Dashboard (id, title, type/subtype, status, last update date, priority, assignee)
+- Detail view with request status "submitted" can be manually changed to "under review" status
+- Request with "under review" status can be manually changed to "approve" or "rejected" status with comment
+- Sort by last update date, priority
 - Filter by request status (submitted, under review, approved, rejected)
+- Search by id, title or description
 
 **Acceptance Criteria:**
 - Dashboard shows only requests assigned to logged-in approver
 - Default sort is by last updated date (oldest first)
-- Quick actions are accessible without opening detail view
+- Actions are accessible with opening detail view
 
 ---
 
@@ -372,7 +384,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 - Rejection reason is required (min 20 chars)
 - Request status changes to "Rejected"
 - Requester receives email notification with reason
-- Rejected requests move out of approval queue
+- Rejected requests move out of approval dashboard
 - Rejected requests cannot be resubmitted (requester must create new request)
 
 ---
@@ -409,7 +421,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 - Filter by date range
 - Filter by request type
 - View statistics (approval rate, average time)
-- Can be exported for reporting in formatted file
+- Can be exported for reporting to CSV/XLSX file
 
 ---
 
@@ -425,9 +437,10 @@ This document specifies the functional requirements for the Enterprise Applicati
 | Event | Recipient | Email Content |
 |-------|-----------|---------------|
 | Request submitted | Requester | Confirmation with request ID and summary |
-| Request routed | Approver | New request requiring approval |
+| Request auto-assigned by system to default Approver | Approver | New request requiring approval |
 | Request under reviewing | Requester | Under review status |
 | Request approved | Requester | Approval confirmation |
+| Request in progress | Requester | In progress status |
 | Request rejected | Requester | Rejection notification with reason |
 | Request completed | Requester | Fulfillment confirmation |
 | Request cancelled | Approver | Cancellation notification |
@@ -449,8 +462,26 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Status:** Draft
 
 **Description:** Admins shall have a system-wide dashboard with key metrics.
+Tabs:
+- To Fulfill: All requests in the system with status Approved (The primary backlog).
+- In Progress: Requests currently being handled by the Admin (status In Progress).
+- History: Requests with status Completed or Rejected.
+- System Backlog (All): Global view of all requests in the system regardless of status.
+- Analytics (P1): Visual dashboard with real-time metrics and charts (Total volume, status distribution, category breakdown).
+- Reports (P1): Dedicated interface for generating and exporting historical data to CSV/XLSX.
+- User management (P1): Dashboard to manage user (create new accounts, assign roles)
+- Request management (P1): Dashboard to manage requests (create new types, edit existing requests, activate/deactivate)
 
-**Dashboard Widgets:**
+- List view of all own requests with quick information (id, title, type, status, last update date, priority, assignee)
+- Status summary (count by status Submitted, Under review, Approved, Rejected, Completed, All)
+- Filter by status (Draft, Submitted, Under review, Approved, Rejected, Completed, All)
+- Sort by last update date, priority
+- Search by id, title or description
+- Quick status indicators (color-coded badges)
+- List of request is paginated (10 per page default)
+- Create view provide change status to "in progress", "rejected" or "completed"
+  
+**Dashboard Analytics:**
 1. System-wide statistics
    - Total requests (all time)
    - Active requests (not completed/rejected/cancelled)
@@ -458,8 +489,8 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 2. Pending Approvals
    - Count of requests awaiting approval
-   - List of oldest pending requests
-   - Approval bottlenecks (approvers with most pending)
+   - List and count of oldest pending requests (more than 3 business days)
+   - Approval bottlenecks (approvers with most pending requests)
 
 3. Request Volume Trends
    - Requests submitted per week/month (chart)
@@ -471,12 +502,12 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 **Acceptance Criteria:**
 - Dashboard loads within 2 seconds
-- All data is current (real-time or max 5 min delay)
+- All data is current
 - Widgets can be refreshed individually
 
 ---
 
-### FR-DR-002: Reporting and Analytics
+### FR-DR-002: Reporting
 **Priority:** P1  
 **Status:** Draft
 
@@ -505,7 +536,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 **Acceptance Criteria:**
 - Reports can be previewed on screen
-- Reports can be exported to formatted file
+- Reports can be exported to CSV/XLSX file
 - Report generation completes within 10 seconds for standard date ranges
 
 ---
@@ -517,7 +548,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Description:** Users shall be able to search for requests.
 
 **Search Capabilities:**
-- Full-text search across title, description
+- Search across id, title, description
 - Filter by request type
 - Filter by status
 - Filter by requester (Admins only)
@@ -556,14 +587,14 @@ This document specifies the functional requirements for the Enterprise Applicati
 - User ID and username
 - Action type
 - Target entity (request ID, user ID, etc.)
-- Before/after values (for updates)
+- New value (if applicable)
 
 **Acceptance Criteria:**
 - All actions are logged automatically
 - Audit records cannot be modified or deleted
 - Audit logs are searchable by Admins
 - Audit logs can be filtered by date, user, action type
-- Audit logs can be exported for compliance
+- Audit logs can be exported for compliance to CSV/XLSX
 
 ---
 
@@ -601,8 +632,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Configuration Options:**
 - Add new request type
 - Edit request type name and description
-- Define custom fields for request type
-- Set default approver(s) for request type
+- Set default approver for request type
 - Activate/deactivate request type
 
 **Acceptance Criteria:**
