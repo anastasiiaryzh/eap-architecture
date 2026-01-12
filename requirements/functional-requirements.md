@@ -258,12 +258,13 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Description:** Requesters shall have a dashboard showing all their requests.
 
 **Dashboard Features:**
-Tabs:
+**Tabs:**  
 - Active Requests: Requests with status Submitted, Under Review, Approved, or In Progress
 - Draft Requests: Requests with status Draft (saved but not yet submitted).
 - Closed Requests: Requests with status Completed, Rejected, or Cancelled.
 - All Requests (default view): A comprehensive list of all requests created by the user.
-
+  
+**Features:**  
 - List view of all own requests with quick information (id, title, type, status, last update date, priority, assignee)
 - Status summary (count by status Submitted, Under review, Approved, Rejected, Completed, All)
 - Filter by status (Draft, Submitted, Under review, Approved, Rejected, Completed, All)
@@ -336,12 +337,13 @@ Tabs:
 
 **Description:** Approvers shall have a dedicated dashboard showing requests requiring their approval.
 
-**Features:**  
-Tabs:  
+**Dashboard:**  
+**Tabs:**  
 - Pending Action (default view): Requests with status Submitted or Under Review assigned to the current approver.
 - History: All requests previously acted upon by the user (status Approved, Rejected, In Progress, or Completed).
 - All Assigned: Every request ever routed to this specific approver.
 
+**Features:**  
 - List of submitted approval requests (oldest last update first by default)
 - Count of submitted approvals, under review, approved, rejected (badge)
 - Request preview on Dashboard (id, title, type/subtype, status, last update date, priority, assignee)
@@ -462,7 +464,7 @@ Tabs:
 **Status:** Draft
 
 **Description:** Admins shall have a system-wide dashboard with key metrics.
-Tabs:
+**Tabs:**  
 - To Fulfill: All requests in the system with status Approved (The primary backlog).
 - In Progress: Requests currently being handled by the Admin (status In Progress).
 - History: Requests with status Completed or Rejected.
@@ -471,7 +473,8 @@ Tabs:
 - Reports (P1): Dedicated interface for generating and exporting historical data to CSV/XLSX.
 - User management (P1): Dashboard to manage user (create new accounts, assign roles)
 - Request management (P1): Dashboard to manage requests (create new types, edit existing requests, activate/deactivate)
-
+  
+**Features:**  
 - List view of all own requests with quick information (id, title, type, status, last update date, priority, assignee)
 - Status summary (count by status Submitted, Under review, Approved, Rejected, Completed, All)
 - Filter by status (Draft, Submitted, Under review, Approved, Rejected, Completed, All)
