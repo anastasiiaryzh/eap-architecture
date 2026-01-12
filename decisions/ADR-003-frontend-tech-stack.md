@@ -2,7 +2,7 @@
 
 **Project:** Enterprise Application Project (EAP)  
 **Version:** 1.1  
-**Date:** 12-01-2026 
+**Date:** 12-01-2026  
 **Status:** Accepted  
 **Source:** Functional Requirements v1.0  
 
