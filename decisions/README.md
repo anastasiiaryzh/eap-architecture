@@ -10,15 +10,15 @@ Architecture Decision Records document important architectural decisions made du
 
 | ADR | Title | Status | Date |
 |-----|-------|--------|------|
-| [ADR-001](decisions/ADR-001-repository-strategy.md) | Repository Strategy | Accepted | 08-01-2026 |
-| [ADR-002](decisions/ADR-002-backend-tech-stack.md) | Backend Technology Stack | Accepted | 12-01-2026 |
-| [ADR-003](decisions/ADR-003-frontend-tech-stack.md) | Frontend Technology Stack | Accepted | 12-01-2026 |
-| [ADR-004](decisions/ADR-004-qa-e2e-tech-stack.md) | QA and E2E Testing Technology Stack | Accepted | 13-01-2026 |
-| [ADR-005](decisions/ADR-005-devops-tech-stack.md) | DevOps and Infrastructure Technology Stack | Accepted | 13-01-2026 |
+| [ADR-001](ADR-001-repository-strategy.md) | Repository Strategy | Accepted | 08-01-2026 |
+| [ADR-002](ADR-002-backend-tech-stack.md) | Backend Technology Stack | Accepted | 12-01-2026 |
+| [ADR-003](ADR-003-frontend-tech-stack.md) | Frontend Technology Stack | Accepted | 12-01-2026 |
+| [ADR-004](ADR-004-qa-e2e-tech-stack.md) | QA and E2E Testing Technology Stack | Accepted | 13-01-2026 |
+| [ADR-005](ADR-005-devops-tech-stack.md) | DevOps and Infrastructure Technology Stack | Accepted | 13-01-2026 |
 
 ## Creating New ADRs
 
-1. Copy [template.md](decisions/template.md)
+1. Copy [template.md](template.md)
 2. Rename to `ADR-XXX-descriptive-name.md` (use next sequential number)
 3. Fill in all sections:
    - **Status**: Proposed → Accepted/Rejected/Superseded
