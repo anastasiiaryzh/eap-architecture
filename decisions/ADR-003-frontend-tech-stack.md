@@ -1,8 +1,8 @@
 # ADR-003: Frontend Technology Stack  
 
 **Project:** Enterprise Application Project (EAP)  
-**Version:** 1.1  
-**Date:** 12-01-2026  
+**Version:** 2.0  
+**Date:** 15-01-2026  
 **Status:** Accepted  
 **Source:** Functional Requirements v1.0  
 
@@ -56,7 +56,7 @@ We will adopt the following frontend technology stack:
 - **TypeScript** 5.x (strict mode)
 
 ### UI Framework & Styling
-- **Ant Design (antd)** 5.x + **@ant-design/icons**
+- **shadcn/ui** + **Tailwind CSS**
 
 ### State Management
 - **Redux Toolkit**
@@ -84,40 +84,41 @@ React 19 provides modern concurrent features, automatic batching, and better ser
 
 **Trade-off:** Compiler is experimental, but can be disabled if issues arise while keeping React 19 benefits.
 
-### Ant Design: Final Choice
+### shadcn/ui + Tailwind CSS: Final Choice
 
-After evaluating shadcn/ui + Tailwind CSS and Ant Design, the team has chosen **Ant Design (antd) 5.x with @ant-design/icons**.
+After evaluating Ant Design and shadcn/ui + Tailwind CSS, the team has chosen **shadcn/ui with Tailwind CSS**.
 
 #### Decision Rationale
 
 **Primary Factors:**
-1. **Rapid Development:** MVP timeline requires fast implementation. Ant Design's 50+ pre-built components (Table, Form, DatePicker, Modal, etc.) work immediately without custom setup
-2. **Complex Data Requirements:** EAP heavily relies on data tables with filtering, sorting, and pagination. Ant Design's Table component is production-ready and feature-rich
-3. **Form-Heavy Application:** Request submission and approval workflows require robust form validation. Ant Design's Form component with built-in validation accelerates development
-4. **Team Knowledge Transfer:** One team member has Ant Design experience, enabling faster onboarding and mentorship
-5. **Enterprise Focus:** Ant Design's design language is built for enterprise applications, matching EAP's professional requirements
-6. **Consistent Design:** Provides polished, consistent UI out-of-the-box without requiring design system decisions
-7. **Icon System:** @ant-design/icons provides 700+ icons that integrate seamlessly with components
+1. **Full Customization Control:** shadcn/ui copies components directly into the project, providing complete control over component code and styling without library lock-in
+2. **Modern Architecture:** Built on Radix UI primitives (accessible, unstyled components) with Tailwind CSS for utility-first styling
+3. **Smaller Bundle Size:** ~150KB vs ~500KB for Ant Design, contributing to better performance and faster load times
+4. **Learning Value:** Team learns modern React patterns, component composition, and utility-first CSS approach (Tailwind) - highly valuable skills in 2026 market
+5. **No Design Lock-in:** Tailwind's utility classes enable rapid UI customization without fighting against opinionated component styles
+6. **TypeScript Native:** Excellent TypeScript support with full type safety
+7. **Component Ownership:** Components live in the codebase, making debugging, customization, and maintenance straightforward
+8. **Industry Momentum:** shadcn/ui and Tailwind CSS are rapidly growing in adoption, especially in modern React projects and startups
 
 #### Evaluation Against Requirements
 
-| Requirement | How Ant Design Addresses It |
+| Requirement | How shadcn/ui + Tailwind Addresses It |
 |------------|------------------------------|
-| **Complex Tables** | Built-in Table component with filter, sort, pagination, and selection |
-| **Form Validation** | Form component with field-level validation, error handling, and async validation |
-| **Development Speed** | Pre-built components accelerate MVP delivery |
-| **Professional UI** | Enterprise design language looks polished by default |
-| **Team Learning** | Extensive documentation, Stack Overflow support, and internal knowledge transfer |
-| **TypeScript** | Full type definitions included |
-| **Performance** | Meets <2s dashboard load requirement with proper code-splitting |
+| **Complex Tables** | Use Tanstack Table with custom shadcn/ui wrapper for full control over table behavior and styling |
+| **Form Validation** | React Hook Form integration with shadcn/ui form components for type-safe validation |
+| **Development Speed** | Initial setup slower, but composable components accelerate feature development after setup |
+| **Professional UI** | Tailwind enables rapid professional styling; shadcn/ui provides accessibility out-of-the-box |
+| **Team Learning** | Teaches fundamental React patterns, composition, accessibility (Radix), and modern CSS (Tailwind) |
+| **TypeScript** | Excellent TypeScript support with full type definitions |
+| **Performance** | Smaller bundle (~150KB) helps meet <2s dashboard load requirement |
 
 #### Trade-offs Accepted
 
 **Cons Acknowledged:**
-- **Larger Bundle Size:** ~500KB vs ~150KB for lighter alternatives (acceptable given <2s performance requirement)
-- **Customization Complexity:** Theme overrides are more complex, but not needed for MVP
-- **Design Lock-in:** "Ant Design look" is acceptable for enterprise application; no custom brand requirements
-- **Less Control:** Component internals are abstracted, but this is acceptable trade-off for development speed
+- **Initial Development Speed:** Requires building/composing components (e.g., complex tables need Tanstack Table integration)
+- **Learning Curve:** Team must learn Tailwind utility classes and component composition patterns
+- **No Pre-built Complex Components:** Features like data tables, advanced forms require integration with additional libraries
+- **Less Immediate Consistency:** Requires establishing design patterns and component usage guidelines
 
 
 ### Redux Toolkit + RTK Query
@@ -166,39 +167,41 @@ Modern build tooling chosen for:
 
 **Performance:**
 - React Compiler auto-optimizes renders
-- Ant Design uses tree-shaking to reduce bundle size
+- shadcn/ui + Tailwind CSS provide smaller bundle size (~150KB) for faster initial loads
 - Vite + Rolldown provide ultra-fast builds and optimized bundle splitting
 - RTK Query reduces unnecessary API calls with intelligent caching
 
 **Maintainability:**
 - TypeScript prevents common bugs
 - Redux centralizes state logic
-- Ant Design components are battle-tested and well-documented
-- Consistent component API reduces learning curve
+- shadcn/ui components are owned by the project, making customization and debugging straightforward
+- Tailwind utility classes provide consistent styling approach
 - ESLint + Prettier enforce consistent code style and best practices
 
 **Learning Outcomes:**
-- Team learns modern React patterns
+- Team learns modern React patterns and component composition
 - Exposure to cutting-edge React Compiler
-- Experience with enterprise component library (Ant Design) widely used globally
+- Experience with Tailwind CSS utility-first approach (highly sought-after skill in 2026)
+- Deep understanding of accessibility through Radix UI primitives
 - Industry-standard state management with Redux Toolkit
-- Knowledge transfer from experienced team member
-- Prepares team for Dutch job market where Ant Design is common in enterprise projects
+- Ownership of component code teaches React fundamentals better than abstracted libraries
+- Prepares team for modern Dutch job market where Tailwind is increasingly popular
 
 **Market Alignment:**
-- Stack mirrors 2025-2026 industry trends
-- All tools have strong European adoption
-- Ant Design widely used in global enterprise applications
-- Matches common Dutch enterprise tech stacks
+- Stack mirrors 2025-2026 industry trends (shadcn/ui and Tailwind rapidly growing)
+- Tailwind CSS has strong adoption in European startups and modern enterprises
+- Component composition approach aligns with React best practices
+- Skills are highly transferable and valued in modern web development
 
 ### Negative
 
 **Complexity:**
 - Redux Toolkit has learning curve compared to Context API
-- Ant Design API requires learning component props and patterns
+- Tailwind CSS requires learning utility class names and responsive patterns
 - TypeScript strict mode is demanding initially
 - React Compiler behavior may be non-obvious
-- Ant Design theme customization is complex if design changes are needed
+- Component composition requires understanding Radix UI primitives
+- Complex components (tables, forms) need integration with additional libraries
 
 **Experimental Risk:**
 - React Compiler is experimental (see Mitigation strategies below)
@@ -208,18 +211,20 @@ Modern build tooling chosen for:
 **Tooling Overhead:**
 - Redux boilerplate for simple operations
 - TypeScript configuration complexity
+- Need to integrate multiple libraries (Tanstack Table, React Hook Form) for complex features
 
-**Lock-in Concerns:**
-- Ant Design's opinionated design language limits visual customization
-- Locked into Ant Design's release cycle and potential breaking changes
-- Difficult to migrate away from Ant Design if requirements change significantly
+**Initial Development Speed:**
+- Slower initial setup compared to pre-built component libraries
+- Each complex component requires composition and styling effort
+- No out-of-the-box solutions for data tables and advanced forms
 
 ### Mitigation
 
 **For Learning Curve:**
-- Start with simpler features (authentication, basic forms)
-- Create internal documentation
+- Start with simpler features (authentication, basic forms) using basic shadcn/ui components
+- Create Tailwind cheat sheet and component style guide for team reference
 - Use React Compiler as opt-in per component initially; can be disabled via config flag if issues arise
+- Build component library gradually, starting with simple UI elements
 
 **For Experimental Risk:**
 - Fallback to React 18 if critical React 19 issues occur (unlikely)
@@ -232,46 +237,49 @@ Modern build tooling chosen for:
 - Local state with `useState` for component-only data
 
 **For Tooling Overhead:**
-- Create component wrappers for frequently used Ant Design patterns
+- Create reusable component compositions for common patterns
 - Use TypeScript utility types to reduce boilerplate
 - Leverage ESLint auto-fix and Prettier formatting to maintain code quality automatically
 - Implement code-splitting to reduce initial bundle size impact
 
-**For Lock-in Concerns:**
-- Accept Ant Design's default design language for MVP (no custom theme needed)
-- Document any custom overrides for maintainability
-- Use Ant Design's theme configuration for minor adjustments (colors, spacing)
-- Avoid deep customizations that would make migration difficult
+**For Initial Development Speed:**
+- Set up Tanstack Table and React Hook Form wrappers early in the project
+- Create reusable table and form component templates
+- Build a component showcase/storybook to document available components
+- Start with shadcn/ui CLI to quickly scaffold common components
+- Establish design patterns (spacing, colors, typography) using Tailwind config
 
 ### Neutral
 
-- **Community Support:** All tools are well-established (Redux, React Router, Ant Design) with extensive documentation
-- **Configuration:** Moderate setup complexity, but well-documented
-- **Design Flexibility:** Ant Design's opinionated design is a trade-off (faster development, less customization)
+- **Community Support:** All tools have strong community support (Redux, React Router, Tailwind CSS, shadcn/ui) with extensive documentation
+- **Configuration:** Moderate setup complexity (Tailwind config, shadcn/ui setup), but well-documented
+- **Design Flexibility:** Full control over styling and component behavior enables custom design system if needed
 
 ## Alternatives Considered
 
-### Alternative 1: shadcn/ui + Tailwind CSS Instead of Ant Design
+### Alternative 1: Ant Design Instead of shadcn/ui + Tailwind CSS
 
-**Description:** Use shadcn/ui component primitives with Tailwind CSS for styling instead of Ant Design.
+**Description:** Use Ant Design (antd) 5.x component library with @ant-design/icons instead of shadcn/ui + Tailwind CSS.
 
 **Pros:**
-- Full customization and control over component code
-- Smaller bundle size (~150KB vs ~500KB)
-- Modern architecture built on Radix UI primitives
-- No library lock-in (components copied into project)
-- Utility-first CSS approach with Tailwind
-- Growing adoption in modern React projects
+- Rapid development with 50+ pre-built components (Table, Form, DatePicker, Modal, etc.)
+- Complex data table component with filtering, sorting, and pagination built-in
+- Form component with robust validation out-of-the-box
+- Consistent enterprise design language by default
+- One team member has Ant Design experience for knowledge transfer
+- Polished UI with minimal configuration
+- @ant-design/icons provides 700+ integrated icons
+- Less initial learning curve compared to Tailwind + component composition
 
 **Cons:**
-- Slower initial development (need to build/customize each component)
-- Complex components like data tables require additional libraries (Tanstack Table)
-- Forms require React Hook Form + manual UI implementation
-- Steeper learning curve for team (Tailwind utilities + component composition)
-- No team member experience with shadcn/ui or Tailwind
-- Less suited for rapid MVP development
+- Larger bundle size (~500KB vs ~150KB)
+- Theme customization is complex and requires understanding Ant Design's theming system
+- Design lock-in to "Ant Design look" unless heavily customized
+- Less control over component internals and behavior
+- Locked into library's release cycle and potential breaking changes
+- Abstracted components provide less learning about React fundamentals
 
-**Rejection Reason:** MVP timeline requires rapid development. EAP is heavily table and form-focused, where Ant Design's pre-built components provide immediate value. Team has existing Ant Design knowledge for faster onboarding. shadcn/ui's customization benefits are not needed for MVP as there are no custom design requirements. The ~350KB bundle size difference is acceptable given the <2s performance requirement.
+**Rejection Reason:** While Ant Design offers faster initial development, the team will benefit more from learning modern React patterns, component composition, and Tailwind CSS—skills highly valued in the 2026 market. shadcn/ui provides full control and customization without library lock-in, smaller bundle size for better performance, and teaches fundamental React concepts better than abstracted libraries. The initial development speed trade-off is acceptable for the long-term learning and flexibility benefits.
 
 ---
 
@@ -394,9 +402,11 @@ Modern build tooling chosen for:
 - [Redux Toolkit Documentation](https://redux-toolkit.js.org/)
 - [RTK Query Documentation](https://redux-toolkit.js.org/rtk-query/overview)
 - [shadcn/ui Documentation](https://ui.shadcn.com/)
-- [Ant Design Documentation](https://ant.design/)
-- [Ant Design Components](https://ant.design/components/overview)
 - [Tailwind CSS Documentation](https://tailwindcss.com/)
+- [Radix UI Documentation](https://www.radix-ui.com/)
+- [Tanstack Table Documentation](https://tanstack.com/table/)
+- [React Hook Form Documentation](https://react-hook-form.com/)
+- [Ant Design Documentation](https://ant.design/)
 - [React Router v7 Documentation](https://reactrouter.com/)
 - [ESLint Documentation](https://eslint.org/)
 - [TypeScript ESLint](https://typescript-eslint.io/)
@@ -411,11 +421,12 @@ Modern build tooling chosen for:
 - Monitor Biome adoption; reassess vs ESLint/Prettier in 6 months
 - Consider migrating to Remix or Next.js for future projects with SSR needs
 - Evaluate bundle size optimizations after MVP (code-splitting, lazy loading)
-- Consider migrating away from Ant Design if custom design system becomes a requirement post-MVP
+- Expand component library with additional shadcn/ui components as needed
+- Consider Storybook for component documentation if team grows
 
 **Known Limitations:**
 - No native mobile apps (web responsive only per MVP scope)
 - No real-time websockets (email notifications sufficient for MVP)
 - No offline support (requires network connectivity)
 - No multi-language support (English only for MVP)
-- Ant Design's opinionated design limits visual customization without significant effort
+- Initial component development requires more setup compared to pre-built libraries
