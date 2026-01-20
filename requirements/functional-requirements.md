@@ -2,7 +2,7 @@
 
 **Project:** Enterprise Application Project (EAP)  
 **Version:** 1.0  
-**Date:** 09-01-2026  
+**Date:** 20-01-2026  
 **Status:** Draft  
 **Source:** EAP Product Vision v1.0  
 
@@ -68,6 +68,8 @@ This document specifies the functional requirements for the Enterprise Applicati
    - Submit new requests
    - View own request history
    - Track status of own requests
+   - Edit own draft requests (before submission)
+   - Delete own draft requests (before submission)
    - Cancel own pending requests (before approval)
    - Add comments to own requests (P2)
 
@@ -283,23 +285,67 @@ This document specifies the functional requirements for the Enterprise Applicati
 ---
 
 ### FR-RM-006: Request Cancellation
-**Priority:** P1  
+**Priority:** P1
 **Status:** Draft
 
 **Description:** Requesters shall be able to cancel their own pending requests.
 
 **Acceptance Criteria:**
-- Requests can only be cancelled before approval
+- Requests can only be cancelled before approval (Draft, Submitted, Under Review)
 - Cancellation requires confirmation dialog
 - Cancelled requests move to "Cancelled" status
-- Approver is notified of cancellation
+- Approver is notified of cancellation (if assigned)
 - Cancelled requests remain visible in history
 - Can be cancelled in detail view
 
 ---
 
-### FR-RM-007: Request Comments
-**Priority:** P2   
+### FR-RM-007: Edit Draft Request
+**Priority:** P1
+**Status:** Draft
+
+**Description:** Requesters shall be able to edit their draft requests before submission.
+
+**Editable Fields:**
+- Request Type (clears Subtype on change)
+- Request Subtype
+- Title
+- Description
+- Business Justification
+- Priority
+- Attachments
+
+**Acceptance Criteria:**
+- Edit button visible only on own requests with status Draft
+- All request fields are editable in Draft status
+- Changes saved without changing status
+- Validation applied on save
+- Cannot edit after status is Submitted or later
+- Edit history logged in audit trail
+- Unsaved changes warning on navigation
+- Changing Type clears Subtype selection
+
+---
+
+### FR-RM-008: Delete Draft Request
+**Priority:** P2
+**Status:** Draft
+
+**Description:** Requesters shall be able to delete their draft requests.
+
+**Acceptance Criteria:**
+- Delete button visible only on own requests with status Draft
+- Confirmation dialog displayed before deletion
+- Request permanently removed from system (hard delete)
+- Cannot delete after status is Submitted or later
+- Deleted request no longer appears in any list or search
+- Deletion logged in audit trail (with request snapshot)
+- Associated attachments deleted from storage
+
+---
+
+### FR-RM-009: Request Comments
+**Priority:** P2
 **Status:** Draft
 
 **Description:** Users shall be able to add comments to requests.
@@ -314,7 +360,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 ---
 
-### FR-RM-008: Request Attachments
+### FR-RM-010: Request Attachments
 **Priority:** P1  
 **Status:** Draft
 
@@ -577,6 +623,8 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Logged Actions:**
 - User login/logout
 - Request creation, submission, update
+- Request edit (draft only, with changed fields)
+- Request deletion (draft only, with snapshot)
 - Status changes
 - Approvals and rejections
 - Comments added
@@ -609,6 +657,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 **Timeline Elements:**
 - Created (with requester)
+- Edited (with changed fields summary)
 - Submitted (with timestamp)
 - Routed to approver (with approver name)
 - Comments added
