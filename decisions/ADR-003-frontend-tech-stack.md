@@ -1,8 +1,8 @@
 # ADR-003: Frontend Technology Stack  
 
 **Project:** Enterprise Application Project (EAP)  
-**Version:** 2.0  
-**Date:** 15-01-2026  
+**Version:** 3.0  
+**Date:** 20-01-2026  
 **Status:** Accepted  
 **Source:** Functional Requirements v1.0  
 
@@ -68,7 +68,7 @@ We will adopt the following frontend technology stack:
 - **React Router v7**
 
 ### Code Quality
-- **TypeScript ESLint + Prettier**
+- **Biome**
 
 ### Build Tool
 - **Vite + Rolldown**
@@ -163,7 +163,7 @@ Modern build tooling chosen for:
 - Fast feedback loop with Vite HMR
 - Strong type safety catches errors early
 - Excellent debugging with Redux DevTools
-- Consistent code style with ESLint + Prettier
+- Consistent code style with Biome
 
 **Performance:**
 - React Compiler auto-optimizes renders
@@ -176,7 +176,7 @@ Modern build tooling chosen for:
 - Redux centralizes state logic
 - shadcn/ui components are owned by the project, making customization and debugging straightforward
 - Tailwind utility classes provide consistent styling approach
-- ESLint + Prettier enforce consistent code style and best practices
+- Biome enforces consistent code style and best practices
 
 **Learning Outcomes:**
 - Team learns modern React patterns and component composition
@@ -239,7 +239,7 @@ Modern build tooling chosen for:
 **For Tooling Overhead:**
 - Create reusable component compositions for common patterns
 - Use TypeScript utility types to reduce boilerplate
-- Leverage ESLint auto-fix and Prettier formatting to maintain code quality automatically
+- Leverage Biome auto-fix and formatting to maintain code quality automatically
 - Implement code-splitting to reduce initial bundle size impact
 
 **For Initial Development Speed:**
@@ -329,31 +329,30 @@ Modern build tooling chosen for:
 
 ---
 
-### Alternative 4: Biome Instead of ESLint + Prettier
+### Alternative 4: ESLint + Prettier Instead of Biome
 
-**Description:** Use Biome as an all-in-one tool for linting and code formatting instead of the traditional ESLint + Prettier combination.
+**Description:** Use the traditional ESLint + Prettier combination for linting and code formatting instead of Biome.
 
 **Pros:**
-- All-in-one solution (linting + formatting in single tool)
-- Significantly faster performance (10-100x faster than ESLint)
-- Simpler configuration (one config file vs two)
-- No conflicts between linter and formatter
-- TypeScript-native implementation
-- Modern, cutting-edge tooling
-- Faster CI/CD pipeline
-- Less cognitive overhead for team
+- Industry standard with proven maturity and long track record
+- Extensive plugin ecosystem (React, TypeScript, accessibility, security plugins)
+- Large community and abundant Stack Overflow resources
+- Mature IDE integration across all major editors
+- Team members may have prior ESLint/Prettier experience
+- Well-documented with extensive tutorials and guides
+- Proven in production enterprise environments
 
 **Cons:**
-- Newer tool with smaller community and ecosystem
-- Limited plugin ecosystem compared to ESLint (fewer custom rules available)
-- Less mature IDE integration in some editors
-- Less Stack Overflow content and documentation
-- Team members likely have no prior Biome experience
-- Some advanced ESLint plugins not available
-- May not support all project-specific linting requirements
-- Less proven in production enterprise environments
+- Requires two separate tools with potential configuration conflicts
+- Slower performance compared to Biome (10-100x slower)
+- Complex configuration with multiple config files (.eslintrc, .prettierrc, etc.)
+- Conflicts between ESLint and Prettier require eslint-config-prettier to resolve
+- Higher cognitive overhead managing two tools
+- Slower CI/CD pipeline due to performance
+- More dependencies to maintain and update
+- Configuration drift between linter and formatter rules
 
-**Rejection Reason:** While Biome offers performance benefits and simplified configuration, ESLint + Prettier is the industry standard with proven maturity. The extensive ESLint plugin ecosystem provides critical rules for React, TypeScript, accessibility (eslint-plugin-jsx-a11y), and security that may not be available in Biome. For a learning-focused development team, using industry-standard tools (ESLint + Prettier) provides better career preparation for the Dutch IT market. The team will encounter these tools in most professional environments. IDE integration is more mature and stable. The performance difference, while notable, is acceptable for development workflow and CI/CD pipeline given the project size.
+**Rejection Reason:** While ESLint + Prettier is the traditional industry standard, Biome offers significant advantages for this project. Biome provides 10-100x faster performance, simplifying both local development and CI/CD pipelines. The all-in-one solution eliminates configuration conflicts between linter and formatter. Biome's simpler configuration (single biome.json) reduces cognitive overhead for the learning team. Biome has matured significantly and now supports React, TypeScript, and accessibility rules sufficient for this project. The Dutch IT market is increasingly adopting modern tooling like Biome, and learning cutting-edge tools prepares the team for future opportunities. Biome's TypeScript-native implementation provides excellent type-aware linting. The performance benefits directly support the project's rapid development timeline.
 
 ---
 
@@ -408,9 +407,7 @@ Modern build tooling chosen for:
 - [React Hook Form Documentation](https://react-hook-form.com/)
 - [Ant Design Documentation](https://ant.design/)
 - [React Router v7 Documentation](https://reactrouter.com/)
-- [ESLint Documentation](https://eslint.org/)
-- [TypeScript ESLint](https://typescript-eslint.io/)
-- [Prettier Documentation](https://prettier.io/)
+- [Biome Documentation](https://biomejs.dev/)
 - [Vite Documentation](https://vitejs.dev/)
 - [Rolldown Documentation](https://rolldown.rs/)
 - [TypeScript Documentation](https://www.typescriptlang.org/)
@@ -418,7 +415,7 @@ Modern build tooling chosen for:
 - [Functional Requirements v1.0](../requirements/functional-requirements.md)
 
 **Potential Stack Evolution:**
-- Monitor Biome adoption; reassess vs ESLint/Prettier in 6 months
+- Monitor Biome ecosystem growth and new rule additions
 - Consider migrating to Remix or Next.js for future projects with SSR needs
 - Evaluate bundle size optimizations after MVP (code-splitting, lazy loading)
 - Expand component library with additional shadcn/ui components as needed
