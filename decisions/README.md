@@ -15,6 +15,7 @@ Architecture Decision Records document important architectural decisions made du
 | [ADR-003](ADR-003-frontend-tech-stack.md) | Frontend Technology Stack | Accepted | 15-01-2026 |
 | [ADR-004](ADR-004-qa-e2e-tech-stack.md) | QA and E2E Testing Technology Stack | Accepted | 13-01-2026 |
 | [ADR-005](ADR-005-devops-tech-stack.md) | DevOps and Infrastructure Technology Stack | Accepted | 13-01-2026 |
+| [ADR-006](ADR-006-ui-ux-design-stack.md) | UI/UX Design Stack | Accepted | 21-01-2026 |
 
 ## Creating New ADRs
 
