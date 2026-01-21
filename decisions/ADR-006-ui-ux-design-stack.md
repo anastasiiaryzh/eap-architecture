@@ -1,4 +1,4 @@
-# ADR-007: UI/UX Design Stack
+# ADR-006: UI/UX Design Stack
 
 **Project:** Enterprise Application Project (EAP)  
 **Version:** 1.0  
