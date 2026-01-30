@@ -14,15 +14,12 @@
 - Unit tests are added or updated where relevant
 - Tests pass in CI (pytest for backend, vitest for frontend)
 - Feature manually tested (happy path and edge cases)
-- API endpoints tested
-- E2E tests added for critical user workflows (Playwright)
 
 ## DevOps
 
 - Build succeeds
 - Relevant automated tests are executed as part of the pipeline
 - Deployment works in the target environment (if applicable)
-- No new vulnerabilities introduced (npm audit, pip Safety)
 
 ## Quality & Resilience
 
