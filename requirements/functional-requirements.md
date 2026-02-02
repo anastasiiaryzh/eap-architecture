@@ -198,7 +198,6 @@ This document specifies the functional requirements for the Enterprise Applicati
 |-------|-------------|-------------|
 | Draft | Request being created (not sent to Approver) | Requester |
 | Submitted | Awaiting review | Requester (change status to "Submitted") → System (auto-assign to one default approver attached to one specific type of request) |
-| Under Review | Being reviewed (Approver starts review manually triggering this even) | Approver |
 | Approved | Approved, awaiting fulfillment | Approver |
 | In progress | Admin assigned request to themselves from general Admin dashboard backlog | Admin |
 | Rejected | Denied with a reason | Approver, Admin |
@@ -207,10 +206,9 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 **State Transitions:**
 - Draft → Submitted (by Requester)
-- Submitted → Under Review (by Approver)
-- Submitted/Under Review → Cancelled (by Requester before approval)
-- Under Review → Approved (by Approver)
-- Under Review → Rejected (by Approver)
+- Submitted → Approved (by Approver)
+- Submitted → Cancelled (by Requester before approval)
+- Submitted → Rejected (by Approver)
 - Approved → In progress (by Admin)
 - Approved → Rejected (by Admin)
 - In progress → Completed (by Admin)
@@ -261,15 +259,15 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 **Dashboard Features:**
 **Tabs:**  
-- Active Requests: Requests with status Submitted, Under Review, Approved, or In Progress
+- Active Requests: Requests with status Submitted, Approved, or In Progress
 - Draft Requests: Requests with status Draft (saved but not yet submitted).
 - Closed Requests: Requests with status Completed, Rejected, or Cancelled.
 - All Requests (default view): A comprehensive list of all requests created by the user.
   
 **Features:**  
 - List view of all own requests with quick information (id, title, type, status, last update date, priority, assignee)
-- Status summary (count by status Submitted, Under review, Approved, Rejected, Completed, All)
-- Filter by status (Draft, Submitted, Under review, Approved, Rejected, Completed, All)
+- Status summary (count by status Submitted, Approved, Rejected, Completed, All)
+- Filter by status (Draft, Submitted, Approved, Rejected, Completed, All)
 - Sort by last update date, priority
 - Search by id, title or description
 - Quick status indicators (color-coded badges)
@@ -291,7 +289,7 @@ This document specifies the functional requirements for the Enterprise Applicati
 **Description:** Requesters shall be able to cancel their own pending requests.
 
 **Acceptance Criteria:**
-- Requests can only be cancelled before approval (Draft, Submitted, Under Review)
+- Requests can only be cancelled before approval (Submitted)
 - Cancellation requires confirmation dialog
 - Cancelled requests move to "Cancelled" status
 - Approver is notified of cancellation (if assigned)
@@ -385,18 +383,17 @@ This document specifies the functional requirements for the Enterprise Applicati
 
 **Dashboard:**  
 **Tabs:**  
-- Pending Action (default view): Requests with status Submitted or Under Review assigned to the current approver.
+- Pending Action (default view): Requests with status Submitted assigned to the current approver.
 - History: All requests previously acted upon by the user (status Approved, Rejected, In Progress, or Completed).
 - All Assigned: Every request ever routed to this specific approver.
 
 **Features:**  
 - List of submitted approval requests (oldest last update first by default)
-- Count of submitted approvals, under review, approved, rejected (badge)
+- Count of submitted approvals, approved, rejected (badge)
 - Request preview on Dashboard (id, title, type/subtype, status, last update date, priority, assignee)
-- Detail view with request status "submitted" can be manually changed to "under review" status
-- Request with "under review" status can be manually changed to "approve" or "rejected" status with comment
+- Request with "submitted" status can be manually changed to "approve" or "rejected" status with comment
 - Sort by last update date, priority
-- Filter by request status (submitted, under review, approved, rejected)
+- Filter by request status (submitted, approved, rejected)
 - Search by id, title or description
 
 **Acceptance Criteria:**
@@ -449,7 +446,6 @@ This document specifies the functional requirements for the Enterprise Applicati
 - Each request type has one default approvers
 
 **Acceptance Criteria:**
-- Request status changes from "Submitted" to "Under Review" by Approver
 - Approver receives email notification
 - Routing happens immediately upon submission
 
@@ -486,7 +482,6 @@ This document specifies the functional requirements for the Enterprise Applicati
 |-------|-----------|---------------|
 | Request submitted | Requester | Confirmation with request ID and summary |
 | Request auto-assigned by system to default Approver | Approver | New request requiring approval |
-| Request under reviewing | Requester | Under review status |
 | Request approved | Requester | Approval confirmation |
 | Request in progress | Requester | In progress status |
 | Request rejected | Requester | Rejection notification with reason |
@@ -522,8 +517,8 @@ This document specifies the functional requirements for the Enterprise Applicati
   
 **Features:**  
 - List view of all own requests with quick information (id, title, type, status, last update date, priority, assignee)
-- Status summary (count by status Submitted, Under review, Approved, Rejected, Completed, All)
-- Filter by status (Draft, Submitted, Under review, Approved, Rejected, Completed, All)
+- Status summary (count by status Submitted, Approved, Rejected, Completed, All)
+- Filter by status (Draft, Submitted, Approved, Rejected, Completed, All)
 - Sort by last update date, priority
 - Search by id, title or description
 - Quick status indicators (color-coded badges)
