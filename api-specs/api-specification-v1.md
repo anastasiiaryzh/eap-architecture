@@ -198,12 +198,12 @@ Update current user's profile.
 
 ## Requests
 
-### POST /requests
+### POST /requests/draft
 
 Create a new request (saved as draft).
 
 **Auth:** Bearer token
-**Permission:** Requester, Approver
+**Permission:** Requester
 
 **Request:**
 ```json
@@ -248,13 +248,67 @@ Create a new request (saved as draft).
 
 ---
 
+### POST /requests/submit
+
+Create a new request (saved as submitted).
+
+**Auth:** Bearer token
+**Permission:** Requester
+
+**Request:**
+```json
+{
+  "title": "New laptop for development",
+  "description": "Need a laptop with 32GB RAM for development work",
+  "business_justification": "Current machine is 5 years old and cannot run required tools",
+  "priority": "medium",
+  "request_type_id": 1,
+  "request_subtype_id": 2
+}
+```
+
+**Response:** `201 Created`
+```json
+{
+  "id": 42,
+  "title": "New laptop for development",
+  "description": "Need a laptop with 32GB RAM for development work",
+  "business_justification": "Current machine is 5 years old and cannot run required tools",
+  "priority": "medium",
+  "status": "submitted",
+  "request_type": {
+    "id": 1,
+    "name": "Hardware Request"
+  },
+  "request_subtype": {
+    "id": 2,
+    "name": "Desktop"
+  },
+  "requester": {
+    "id": 1,
+    "first_name": "John",
+    "last_name": "Doe"
+  },
+  "approver": {
+    "id": 2,
+    "first_name": "Saskia",
+    "last_name": "Jansen"
+  },
+  "created_at": "2026-01-23T10:00:00Z",
+  "updated_at": "2026-01-23T10:00:00Z",
+  "submitted_at": "2026-01-23T10:00:00Z"
+}
+```
+
+---
+
 ### GET /requests
 
 List requests for the current user.
 
 **Auth:** Bearer token
 **Permission:**
-- Requester/Approver: own created requests
+- Requester/Approver/Admin: own created requests
 - Admin: all requests
 
 **Query params:**
@@ -291,9 +345,14 @@ List requests for the current user.
         "first_name": "John",
         "last_name": "Doe"
       },
-      "approver": null,
+      "approver": {
+        "id": 2,
+        "first_name": "Saskia",
+        "last_name": "Jansen"
+      },
       "updated_at": "2026-01-23T10:00:00Z",
-      "created_at": "2026-01-23T10:00:00Z"
+      "created_at": "2026-01-23T10:00:00Z",
+      "submitted_at": "2026-01-23T10:00:00Z"
     }
   ],
   "total": 15,
