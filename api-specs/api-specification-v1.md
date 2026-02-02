@@ -315,7 +315,7 @@ List requests for the current user.
 ```
 ?page=1
 &limit=10
-&status=draft,submitted,under_review    (comma-separated)
+&status=draft,submitted    (comma-separated)
 &priority=high,urgent
 &request_type_id=1
 &search=laptop                           (searches id, title, description)
@@ -362,7 +362,6 @@ List requests for the current user.
   "status_counts": {
     "draft": 3,
     "submitted": 5,
-    "under_review": 2,
     "approved": 1,
     "in_progress": 1,
     "rejected": 2,
@@ -392,7 +391,7 @@ Get full request details.
   "description": "Need a laptop with 32GB RAM for development work",
   "business_justification": "Current machine is 5 years old and cannot run required tools",
   "priority": "medium",
-  "status": "under_review",
+  "status": "approved",
   "request_type": {
     "id": 1,
     "name": "Hardware Request"
@@ -498,11 +497,9 @@ For rejection (comment required, min 20 chars):
 | From | To | Who | Comment required |
 |------|----|-----|-----------------|
 | draft | submitted | Requester (owner) | No |
-| submitted | under_review | Approver (assigned) | No |
 | submitted | cancelled | Requester (owner) | No |
-| under_review | approved | Approver (assigned) | No |
-| under_review | rejected | Approver (assigned) | Yes (min 20 chars) |
-| under_review | cancelled | Requester (owner) | No |
+| submitted | approved | Approver (assigned) | No |
+| submitted | rejected | Approver (assigned) | Yes (min 20 chars) |
 | approved | in_progress | Admin | No |
 | approved | rejected | Admin | Yes (min 20 chars) |
 | in_progress | completed | Admin | No |
@@ -511,8 +508,6 @@ For rejection (comment required, min 20 chars):
 
 **Side effects:**
 - `draft → submitted`: Auto-assigns approver based on request type, sends email notification to approver
-- `under_review → approved`: Sends email notification to requester
-- `under_review → rejected`: Sends email notification to requester with reason
 - `* → cancelled`: Sends email notification to approver (if assigned)
 
 **Errors:**
@@ -606,7 +601,7 @@ List requests assigned to the current approver.
 ```
 ?page=1
 &limit=10
-&status=submitted,under_review     (comma-separated)
+&status=submitted     (comma-separated)
 &priority=high,urgent
 &search=laptop
 &sort_by=updated_at                 (updated_at | priority)
@@ -645,7 +640,6 @@ List requests assigned to the current approver.
   "pages": 1,
   "status_counts": {
     "submitted": 5,
-    "under_review": 3,
     "approved": 12,
     "rejected": 4
   }
@@ -748,7 +742,7 @@ Search audit logs.
 ```
 
 ### Request Status Values
-`draft` | `submitted` | `under_review` | `approved` | `in_progress` | `rejected` | `completed` | `cancelled`
+`draft` | `submitted` | `approved` | `in_progress` | `rejected` | `completed` | `cancelled`
 
 ### Priority Values
 `low` | `medium` | `high` | `urgent`
