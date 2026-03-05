@@ -162,7 +162,7 @@ EAP-123: Add access request endpoint
 
 ## Local Development Setup
 
-See the step-by-step guide in [deployments/full app deployments/local (development)/](deployments/full%20app%20deployments/local%20%28development%29/backend_and_frontned_use_dev_servres_and_nginx_forwards_to_frontend/instructions.md) for running all services locally with Docker and Nginx.
+See the step-by-step guide in [deployments/full app deployments/local (development)/](deployments/full app deployments/local (development)/backend_and_fronted_use_dev_serves_and_nginx_forwards_to_frontend/instructions.md) for running all services locally with Docker and Nginx.
 
 Quick overview:
 1. Create a shared Docker network (`eap-docker-net`)
