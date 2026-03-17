@@ -59,7 +59,7 @@ docker run --name eap-postgres-container --network eap-docker-net -v pgdata:/var
 
 #### 3.1 Configure environment variables
 
-Create a `.env` file if it doesn't exist. example:
+Create a `.env` file if it doesn't exist:
 
 ```bash
 - DATABASE_TYPE=postgresql
@@ -240,57 +240,9 @@ EXPOSE 80
 # 7. Start Nginx in the foreground so the container stays alive
 CMD ["nginx", "-g", "daemon off;"]
 ```
+### 5.4
 
----
-
-### 5.4 Build the image
-
-```bash
-docker build --no-cache -t eap-frontend-image -f production.Dockerfile .
-```
-
----
-
-### 5.5 Run a container
-
-```bash
-docker run --name eap-frontend-container \
-  --network eap-docker-net \
-  -p 80:80 \
-  -d eap-frontend-image
-```
-
-Explanation:
-
-- Inside the container, Nginx will run on its default port of 80.
-  The browser will send messages to http://37.97.253.83:80, and since we mapped the ports, Docker will forward it to the
-  container's eth0 (the container's virtual Ethernet interface) on port 80.
-
----
-
-## 6. Nginx (The instructions are written for Mac!)
-
-### 6.1 Install Nginx
-
-```bash
-brew install nginx
-```
-
-### 6.2 Confirm successful installation
-
-```bash
-nginx -v
-```
-
-### 6.3 Clear the config file
-
-Path:
-
-```
-/opt/homebrew/etc/nginx/nginx.conf
-```
-
-Enter this content instead:
+Create nginx.conf content in the frontend repo:
 
 ```nginx
 server {
@@ -333,22 +285,35 @@ server {
     }
 }
 ```
+---
+
+### 5.4 Build the image
+
+```bash
+docker build --no-cache -t eap-frontend-image -f production.Dockerfile .
+```
 
 ---
 
-### 6.4 Start Nginx
+### 5.5 Run a container
 
 ```bash
-nginx
+docker run --name eap-frontend-container \
+  --network eap-docker-net \
+  -p 80:80 \
+  -d eap-frontend-image
 ```
 
-### 6.5 Go to:
+Explanation:
 
-```
-'http://37.97.253.83:'
-```
+- Inside the container, Nginx will run on its default port of 80.
+  The browser will send messages to http://37.97.253.83:80, and since we mapped the ports, Docker will forward it to the
+  container's eth0 (the container's virtual Ethernet interface) on port 80.
 
-to see if the application can be reached.
+---
+
+
+### 6.5 Go to your IP in the browser and see if the application can be reached.
 
 ---
 
