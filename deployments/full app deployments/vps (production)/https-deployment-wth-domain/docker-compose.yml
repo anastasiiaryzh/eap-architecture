@@ -1,0 +1,55 @@
+services:
+  # --- THE DATABASE ---
+  db:
+    image: postgres:latest
+    container_name: eap-postgres-container
+    env_file:
+      - ./eap-backend/.env
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    ports:
+      # Format is "Host_Port:Container_Port"
+      # This allows your laptop to connect via VPS_IP:5431
+      - "5431:5432"
+    networks:
+      - eap-network
+
+  # --- THE BACKEND ---
+  backend:
+    container_name: eap-backend-container
+    build:
+      context: ./eap-backend
+    env_file:
+      - ./eap-backend/.env
+    depends_on:
+      - db
+    networks:
+      - eap-network
+
+  # --- THE FRONTEND ---
+  frontend:
+    container_name: eap-frontend-container
+    env_file:
+      - ./eap-frontend/.env
+    build:
+      context: ./eap-frontend
+      dockerfile: production.Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - backend
+    networks:
+      - eap-network
+
+volumes:
+  pgdata:
+
+networks:
+  eap-network:
+    driver: bridge
