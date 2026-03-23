@@ -23,15 +23,26 @@ serving React's static files. Vite is no longer used for its dev server, only fo
 
 - Browser ⇆ FastAPI:
     - Browser → Nginx in a container (via localhost)
-    - Nginx in a container → Uvicorn in FastAPI container (via a docker network) → Uvicorn → FastAPI 
-    -  FastAPI container → Postgres container (via Docker network)
+    - Nginx in a container → Uvicorn in FastAPI container (via a docker network) → Uvicorn → FastAPI
+    - FastAPI container → Postgres container (via Docker network)
     - *Optional* - PgAdmin container (accessed via browser) → Postgres container on vps (via port mapping)
-
-
 
 ---
 
 ## Steps
+
+### NOTE: A Docker Compose file is provided for a faster deployment.
+
+How to use:
+In every step, skip all the Docker commands. Once you've finished with all the steps, create a directory somewhere on
+the VPS and place the docker-compose file inside, along with the backend and frontend repos:
+
+    /some-directory    
+        docker-compose.yml
+        eap-backend
+        eap-frontend
+
+Finally, run: ```docker compose up -d```
 
 ### 1. Docker network
 
@@ -46,7 +57,8 @@ docker network create eap-docker-net
 ### 2. Postgres
 
 Run a container off the official Postgres image with the network you just created in the previous step.  
-Well also map a port from host so pgAdmin on a client machine could communicate with it. For the app Fastapi will just communicate with it using the docker network we created -
+Well also map a port from host so pgAdmin on a client machine could communicate with it. For the app Fastapi will just
+communicate with it using the docker network we created -
 eap-docker-net. We'll also create a volume too to avoid data loss.
 
 ```bash
@@ -109,6 +121,7 @@ CORS_ALLOWED_ORIGINS: list[str] = [
     "http://eap-it31.motoppdemo.nl",
 ]
 ```
+
 ---
 
 #### 3.3 Create the .dockerfile:
@@ -177,11 +190,10 @@ Postgres container's port. Also fill in the correct username and password, the o
 
 ### 5. React
 
-
-
 #### 5.1 Make sure that Vite has the correct IP and port of the backend
 
-Later, in step 6, we'll configure the containerized Nginx to run on localhost and listen to port 443 for serving both the
+Later, in step 6, we'll configure the containerized Nginx to run on localhost and listen to port 443 for serving both
+the
 built React files and
 the FastAPI part. We'll map the machine's port 443 to the container's 443, so in our React code, we'll set the API's
 URL (the URL of all the requests the browser makes to
@@ -198,6 +210,7 @@ forwarded by Nginx to FastAPI.
 For example: <our domain>/api/v1/auth/login
 
 ---
+
 #### 5.2 Create nginx.conf content in the frontend repo:
 
 ```nginx
