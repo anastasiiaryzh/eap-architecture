@@ -4,10 +4,11 @@ services:
     image: postgres:latest
     container_name: eap-postgres-container
     env_file:
-      - ./eap-backend/.env
+      - ./.env
     environment:
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USER}
     volumes:
       - pgdata:/var/lib/postgresql
     ports:
@@ -19,11 +20,10 @@ services:
 
   # --- THE BACKEND ---
   backend:
+    image: yuvalmotopp/backend_fastapi:latest
     container_name: eap-backend-container
-    build:
-      context: ./eap-backend
     env_file:
-      - ./eap-backend/.env
+      - ./.env
     depends_on:
       - db
     networks:
@@ -32,11 +32,9 @@ services:
   # --- THE FRONTEND ---
   frontend:
     container_name: eap-frontend-container
+    image: yuvalmotopp/eap-frontend:latest
     env_file:
-      - ./eap-frontend/.env
-    build:
-      context: ./eap-frontend
-      dockerfile: Dockerfile
+      - ./.env
     ports:
       - "80:80"
       - "443:443"

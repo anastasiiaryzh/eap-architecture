@@ -290,7 +290,7 @@ server {
 ### 5.4 Build the image
 
 ```bash
-docker build --no-cache -t eap-frontend-image -f production.Dockerfile .
+docker build --no-cache -t eap-frontend-image -f Dockerfile .
 ```
 
 ---
