@@ -42,7 +42,7 @@ the VPS and place the docker-compose file inside, along with the backend and fro
         eap-backend
         eap-frontend
 
-Finally, run: ```docker compose up -d```
+Finally, from inside the directory, run: ```docker compose up -d```
 
 ### 1. Docker network
 
@@ -162,7 +162,7 @@ docker run --name eap-backend-container --network eap-docker-net -it eap-backend
 
 ### 4. pgAdmin
 
-#### 4.1 Run a pgAdmin container (Regular pgAdmin can also be used, but it seems to be very slow)
+#### 4.1 Run a pgAdmin container on your own computer (Regular pgAdmin can also be used, but it seems to be very slow)
 
 ```bash  
 docker run --name eap-pgadmin-container \
@@ -370,7 +370,7 @@ CMD ["nginx", "-g", "daemon off;"]
 ### 5.3 Build the image
 
 ```bash
-docker build --no-cache -t eap-frontend-image -f production.Dockerfile .
+docker build --no-cache -t eap-frontend-image -f Dockerfile .
 ```
 
 ---
@@ -394,26 +394,3 @@ Explanation:
   container's eth0 (the container's virtual Ethernet interface) on port 443.
 
 ---
-
-
-
-
----
-
-### 6.4 Start Nginx
-
-```bash
-nginx
-```
-
-### 6.5 Go to:
-
-```
-'eap-it31.motoppdemo.nl'
-```
-
-to see if the application can be reached.
-
----
-
-[//]: # (sudo chmod -R 755 /etc/letsencrypt)
