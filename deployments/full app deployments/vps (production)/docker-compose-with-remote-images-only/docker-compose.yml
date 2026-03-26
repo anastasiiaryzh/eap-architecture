@@ -24,6 +24,9 @@ services:
     container_name: eap-backend-container
     env_file:
       - ./.env
+    volumes:
+      # VPS Folder : Container Path
+      - ./user_images:/app/images
     depends_on:
       - db
     networks:
@@ -40,6 +43,8 @@ services:
       - "443:443"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
+      # Map the same VPS folder to Nginx's web root
+      - ./user_images:/usr/share/nginx/html/images:ro
     depends_on:
       - backend
     networks:
